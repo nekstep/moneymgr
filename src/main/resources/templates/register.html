@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login or Register</title>
+  <th:block th:insert="~{generic :: header}"></th:block>
+</head>
+<body>
+<th:block th:insert="~{generic :: navbar}"></th:block>
+<br/><br/>
+<div class="container">
+  <div class="row col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Registration</h2>
+      </div>
+      <div th:if="${param.success}">
+        <div class="alert alert-info">
+          Registration successful
+        </div>
+      </div>
+      <div class="card-body">
+        <form
+          method="post"
+          role="form"
+          id="register-form"
+          th:action="@{/register/save}"
+          th:object="${user}">
+          <div class="form-group mb-3">
+            <label class="form-label">Name</label>
+            <input
+              class="form-control need-validation"
+              id="name"
+              name="name"
+              placeholder="Enter your full name"
+              th:field="*{name}"
+              type="text"/>
+            <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Email</label>
+            <input
+                    class="form-control need-validation"
+                    id="email"
+                    name="email"
+                    placeholder="Enter email address"
+                    th:field="*{email}"
+                    type="text"/>
+            <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Password</label>
+            <input
+                    class="form-control need-validation"
+                    id="password"
+                    name="password"
+                    placeholder="Choose password"
+                    th:field="*{password}"
+                    type="password"/>
+            <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Repeat password</label>
+            <input
+                    class="form-control need-validation"
+                    id="repeat-password"
+                    name="repeat-password"
+                    placeholder="Repeat password"
+                    type="password"/>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit">Register</button>
+            <span>Already registered? <a th:href="@{/login}">Login</a></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+
+  function markField(field, state) {
+    if (state === true) {
+      $(field).addClass("border-success");
+    } else {
+      $(field).addClass("border-danger");
+    }
+
+    return (state === true);
+  }
+
+  function validateTextField(field) {
+    return markField(field, !($(field).val() === ''));
+  }
+
+  function validateEmailField(field) {
+    let validEmailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    return markField(field, $(field).val().match(validEmailRegex) != null);
+  }
+
+  function validatePassword(baseField, checkField) {
+    return markField(checkField, !($(checkField).val() === '' ) && ($(baseField).val() === $(checkField).val()));
+  }
+
+  function validateForm() {
+    $('.need-validation').removeClass("border-danger").removeClass("border-success");
+
+    let result = true;
+
+    if (!validateTextField('#name')) { result = false; }
+    if (!validateEmailField('#email')) { result = false; }
+    if (!validateTextField('#password')) { result = false; }
+    if (!validatePassword('#password', '#repeat-password')) { result = false; }
+
+    return result;
+  }
+</script>
+
+<script type="application/javascript">
+  $('#register-form').submit(function() {
+      return validateForm();
+    })
+</script>
+
+</body>
+</html>
