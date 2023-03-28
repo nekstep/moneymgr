@@ -4,6 +4,7 @@ import com.cfcons.moneymgr.dto.AccountDto;
 import com.cfcons.moneymgr.entity.Account;
 import com.cfcons.moneymgr.entity.User;
 import com.cfcons.moneymgr.repository.AccountRepository;
+import com.cfcons.moneymgr.security.AuthenticationFacade;
 import com.cfcons.moneymgr.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,23 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
+    private final AuthenticationFacade authenticationFacade;
+
     @Override
     public List<AccountDto> findAllAccountsByUser(User user) {
         List<Account> accounts = accountRepository.findAllByUser(user);
 
         return accounts.stream()
+                .filter(this::isCurrentUserAuthorised)
                 .map(this::mapToAccountDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Account findAccountById(Long Id) {
-        return accountRepository.findById(Id).orElse(null);
+        return accountRepository.findById(Id)
+                .filter(this::isCurrentUserAuthorised)
+                .orElse(null);
     }
 
     @Override
@@ -40,13 +46,19 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    private User getAuthorisedUser(Account account) {
+        return account != null
+                ? account.getUser()
+                : null;
+    }
+
     @Override
-    public User getAuthorisedUser(Account account) {
-        if (account != null) {
-            return account.getUser();
-        } else {
-            return null;
+    public Boolean isCurrentUserAuthorised(Account account) {
+        if (account == null) {
+            return false;
         }
+
+        return getAuthorisedUser(account).equals(authenticationFacade.getCurrentUser());
     }
 
     private AccountDto mapToAccountDto(Account account) {

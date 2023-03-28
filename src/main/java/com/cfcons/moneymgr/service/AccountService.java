@@ -13,5 +13,5 @@ public interface AccountService {
 
     Account addAccount(User user, AccountDto accountDto);
 
-    User getAuthorisedUser(Account account);
+    Boolean isCurrentUserAuthorised(Account account);
 }
