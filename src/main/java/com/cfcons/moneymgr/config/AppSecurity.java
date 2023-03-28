@@ -12,6 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
+/**
+ * Web security configuration class for Spring
+ */
 @Configuration
 @EnableWebSecurity
 public class AppSecurity {
@@ -24,6 +28,13 @@ public class AppSecurity {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Specifies http access security ruleset.
+     *
+     * @param http          HttpSecurity injected by Spring
+     * @return              SecurityFilterChain to be used by Spring
+     * @throws Exception    Re-raising from underlying methods
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -48,6 +59,12 @@ public class AppSecurity {
         return http.build();
     }
 
+    /**
+     * Password encoder and user details service configuration.
+     *
+     * @param auth          AuthenticationManagerBuilder
+     * @throws Exception    Re-raise any underlying exceptions
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth

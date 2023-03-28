@@ -17,11 +17,21 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
 
     private final UserRepository userRepository;
 
+    /**
+     * Get authentication data
+     *
+     * @return  Authentication for current session
+     */
     @Override
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
+    /**
+     * Shortcut to get currently logged in user
+     *
+     * @return  User object for current user
+     */
     @Override
     public User getCurrentUser() {
         return userRepository.findByEmail(getAuthentication().getName());

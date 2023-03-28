@@ -9,6 +9,9 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity for roles
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,6 +34,8 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
+
+        // We rely only on role name to compare roles
         return name.equals(role.name);
     }
 

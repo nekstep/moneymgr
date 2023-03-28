@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Entity for User related data.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -42,16 +45,32 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Account> accounts;
 
+    /**
+     * Grant role to user.
+     *
+     * @param role  Role to be granted.
+     */
     public void addRole(Role role) {
         if (roles.stream().noneMatch(x -> x.equals(role))) {
             roles.add(role);
         }
     }
 
+    /**
+     * Revoke role from user.
+     *
+     * @param role  Role to be revoked.
+     */
     public void deleteRole(Role role) {
         roles = roles.stream().filter(x -> !x.equals(role)).collect(Collectors.toList());
     }
 
+    /**
+     * Grant or revoke role to user depending on parameter.
+     *
+     * @param role      Role.
+     * @param value     true to grant, false to revoke.
+     */
     public void updateRole(Role role, Boolean value) {
         if (value) {
             addRole(role);
@@ -60,6 +79,12 @@ public class User {
         }
     }
 
+    /**
+     * Check if user has a role.
+     *
+     * @param role  Role
+     * @return      true if user has this role
+     */
     public Boolean hasRole(Role role) {
         return roles.stream()
                 .anyMatch(x -> x.equals(role));
