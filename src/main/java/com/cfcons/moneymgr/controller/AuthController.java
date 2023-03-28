@@ -4,7 +4,7 @@ import com.cfcons.moneymgr.dto.UserDto;
 import com.cfcons.moneymgr.entity.User;
 import com.cfcons.moneymgr.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,16 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
-
 @Controller
+@AllArgsConstructor
 public class AuthController {
 
     private final UserService userService;
-
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
 
     // handle home page requests
     @GetMapping("/index")
@@ -60,13 +55,5 @@ public class AuthController {
     @GetMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @GetMapping("/users")
-    public String users(Model model, Authentication authentication) {
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        model.addAttribute("current_user", authentication.getName());
-        return "users";
     }
 }

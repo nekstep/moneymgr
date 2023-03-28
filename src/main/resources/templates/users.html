@@ -20,15 +20,48 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
+      <th>Admin</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
       <td th:text="${user.name}"></td>
       <td th:text="${user.email}"></td>
+      <td>
+          <input id="isAdmin"
+                 name="isAdmin"
+                 class="admin-checkbox"
+                 th:data-email="${user.email}"
+                 type="checkbox"
+                 th:checked="${user.isAdmin()}"/>
+      </td>
     </tr>
     </tbody>
   </table>
 </div>
+
+<script type="application/javascript">
+  $(document).on('click', '.admin-checkbox', function(e){
+    $.ajax({
+      context: this,
+      type: 'post',
+      url: "/admin/users/adminrole",
+      data: {
+        email: $(this).data('email'),
+        isadmin: $(this).prop('checked'),
+        action: 'post'
+      },
+
+      success: function (response) {
+        $(this).prop('checked', response["isadmin"]);
+//        console.log(response);
+      },
+      error: function (xhr, errmsg, err) {
+ //       alert(errmsg);
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
