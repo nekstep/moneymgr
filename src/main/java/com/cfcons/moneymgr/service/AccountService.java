@@ -12,4 +12,6 @@ public interface AccountService {
     Account findAccountById(Long Id);
 
     Account addAccount(User user, AccountDto accountDto);
+
+    User getAuthorisedUser(Account account);
 }

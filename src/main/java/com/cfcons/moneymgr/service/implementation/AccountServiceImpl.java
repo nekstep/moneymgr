@@ -40,6 +40,15 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    @Override
+    public User getAuthorisedUser(Account account) {
+        if (account != null) {
+            return account.getUser();
+        } else {
+            return null;
+        }
+    }
+
     private AccountDto mapToAccountDto(Account account) {
         AccountDto accountDto = new AccountDto();
 
