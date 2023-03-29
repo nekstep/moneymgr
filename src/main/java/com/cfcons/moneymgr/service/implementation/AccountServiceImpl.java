@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service to work with Account entities
+ */
 @Service
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
@@ -20,6 +23,12 @@ public class AccountServiceImpl implements AccountService {
 
     private final AuthenticationFacade authenticationFacade;
 
+    /**
+     * Find all accounts belonging to particular user
+     *
+     * @param user  User object
+     * @return      List of AccountDto
+     */
     @Override
     public List<AccountDto> findAllAccountsByUser(User user) {
         List<Account> accounts = accountRepository.findAllByUser(user);
@@ -30,6 +39,12 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Find account by id
+     *
+     * @param Id    Account id
+     * @return      AccountDto or null if not found
+     */
     @Override
     public AccountDto findAccountById(Long Id) {
         return accountRepository.findById(Id)
@@ -38,6 +53,39 @@ public class AccountServiceImpl implements AccountService {
                 .orElse(null);
     }
 
+    /**
+     * Update account name
+     *
+     * @param accountDto    AccountDto to update
+     * @return              Updated AccountDto
+     */
+    @Override
+    public AccountDto updateAccount(AccountDto accountDto) {
+
+        // get Account if we are authorized to
+        Account account = accountRepository.findById(accountDto.getId())
+                .filter(this::isCurrentUserAuthorised)
+                .orElse(null);
+
+        // if no such account or not authorized - return null
+        if (account == null) {
+            return null;
+        }
+
+        // update account name in database
+        account.setName(accountDto.getName());
+        AccountDto response = mapToAccountDto(accountRepository.save(account));
+
+        // return updated object
+        return response;
+    }
+
+    /**
+     * Add new account
+     * @param user          User to add account to
+     * @param accountDto    AccountDto for new account
+     * @return              Account object of newly created account
+     */
     @Override
     public Account addAccount(User user, AccountDto accountDto) {
         Account account = new Account();
@@ -47,12 +95,24 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    /**
+     * Get account owner
+     *
+     * @param account   Account
+     * @return          User or null
+     */
     private User getAuthorisedUser(Account account) {
         return account != null
                 ? account.getUser()
                 : null;
     }
 
+    /**
+     * Check if current user is authorized to access the account
+     *
+     * @param account   Account in question
+     * @return          true if authorized
+     */
     @Override
     public Boolean isCurrentUserAuthorised(Account account) {
         if (account == null) {
@@ -62,6 +122,12 @@ public class AccountServiceImpl implements AccountService {
         return getAuthorisedUser(account).equals(authenticationFacade.getCurrentUser());
     }
 
+    /**
+     * Map Account to AccountDto
+     *
+     * @param account   Account
+     * @return          AccountDto
+     */
     private AccountDto mapToAccountDto(Account account) {
         AccountDto accountDto = new AccountDto();
 
