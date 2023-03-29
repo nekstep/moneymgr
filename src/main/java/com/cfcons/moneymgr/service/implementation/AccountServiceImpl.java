@@ -31,9 +31,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account findAccountById(Long Id) {
+    public AccountDto findAccountById(Long Id) {
         return accountRepository.findById(Id)
                 .filter(this::isCurrentUserAuthorised)
+                .map(this::mapToAccountDto)
                 .orElse(null);
     }
 

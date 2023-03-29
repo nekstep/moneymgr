@@ -16,10 +16,11 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
 <th:block th:fragment="navbar">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark flex-md-nowrap p-0">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/app}">MoneyMgr</a>
       <button class="navbar-toggler" type="button"
@@ -50,7 +51,7 @@
         </div>
         <div sec:authorize="isAuthenticated()">
           <li class="nav-item">
-            <a class="nav-line active" aria-current="page" th:href="@{/logout}">Logout</a>
+            <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
           </li>
         </div>
       </ul>

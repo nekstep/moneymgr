@@ -9,7 +9,7 @@ import java.util.List;
 public interface AccountService {
     List<AccountDto> findAllAccountsByUser(User user);
 
-    Account findAccountById(Long Id);
+    AccountDto findAccountById(Long Id);
 
     Account addAccount(User user, AccountDto accountDto);
 
