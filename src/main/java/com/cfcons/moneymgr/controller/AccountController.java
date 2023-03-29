@@ -57,7 +57,7 @@ public class AccountController {
      */
     @GetMapping("/details/{id}")
     public String getAccountDetails(@PathVariable Long id, Model model) {
-        AccountDto accountDto = accountService.findAccountById(id);
+        AccountDto accountDto = accountService.findAccountDtoById(id);
 
         // check if this account actually exists
         if (accountDto == null) {
@@ -66,8 +66,6 @@ public class AccountController {
 
         // add to model
         model.addAttribute("account", accountDto);
-
-        // TODO: Get transaction list from account
 
         return "app/account :: main-account-info";
     }

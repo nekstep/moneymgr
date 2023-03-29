@@ -30,6 +30,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<TransactionDto> findAllTransactionsByAccountId(Long id) {
+        Account account = accountService.findAccountById(id);
+
+        return findAllTransactionsByAccount(account);
+    }
+
+    @Override
     public Transaction addTransaction(Account account, TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
 

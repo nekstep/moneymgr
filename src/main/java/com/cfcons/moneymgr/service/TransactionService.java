@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface TransactionService {
     List<TransactionDto> findAllTransactionsByAccount(Account account);
+    List<TransactionDto> findAllTransactionsByAccountId(Long id);
 
     Transaction addTransaction(Account account, TransactionDto transactionDto);
 

@@ -44,3 +44,8 @@ $('#account-name-input').keyup(function (e) {
     }
 });
 
+/**
+ * Fill in transactions
+ */
+$('#transaction-list-table').load('/app/transaction/account/' + $('#account-name-input').data('account-id'));
+

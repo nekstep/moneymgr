@@ -21,7 +21,15 @@ public interface AccountService {
      * @param Id    Account id
      * @return      AccountDto or null if not found
      */
-    AccountDto findAccountById(Long Id);
+    AccountDto findAccountDtoById(Long Id);
+
+    /**
+     * Find account by id
+     *
+     * @param Id    Account id
+     * @return      AccountDto or null if not found
+     */
+    Account findAccountById(Long Id);
 
     /**
      * Update account name

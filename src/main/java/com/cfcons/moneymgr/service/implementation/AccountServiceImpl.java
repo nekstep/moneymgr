@@ -46,10 +46,17 @@ public class AccountServiceImpl implements AccountService {
      * @return      AccountDto or null if not found
      */
     @Override
-    public AccountDto findAccountById(Long Id) {
+    public AccountDto findAccountDtoById(Long Id) {
         return accountRepository.findById(Id)
                 .filter(this::isCurrentUserAuthorised)
                 .map(this::mapToAccountDto)
+                .orElse(null);
+    }
+
+    @Override
+    public Account findAccountById(Long Id) {
+        return accountRepository.findById(Id)
+                .filter(this::isCurrentUserAuthorised)
                 .orElse(null);
     }
 
@@ -72,12 +79,11 @@ public class AccountServiceImpl implements AccountService {
             return null;
         }
 
-        // update account name in database
+        // update account name
         account.setName(accountDto.getName());
-        AccountDto response = mapToAccountDto(accountRepository.save(account));
 
         // return updated object
-        return response;
+        return mapToAccountDto(accountRepository.save(account));
     }
 
     /**
