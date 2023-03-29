@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 /**
  * Web security configuration class for Spring
  */
@@ -47,7 +46,7 @@ public class AppSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/app")
+                                .successHandler((request, response, authentication) -> response.sendRedirect("/app"))
                                 .permitAll()
                         )
                 .logout(
