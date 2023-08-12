@@ -36,7 +36,7 @@ public class AppSecurity {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
@@ -48,7 +48,7 @@ public class AppSecurity {
                                 .loginProcessingUrl("/login")
                                 .successHandler((request, response, authentication) -> response.sendRedirect("/app"))
                                 .permitAll()
-                        )
+                )
                 .logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
