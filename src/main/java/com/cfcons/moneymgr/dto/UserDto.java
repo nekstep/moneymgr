@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import com.cfcons.moneymgr.config.AppRoles;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,4 +26,12 @@ public class UserDto {
     @NotEmpty(message = "Password should not be empty")
     private String password;
     private List<RoleDto> roles;
+
+    public Boolean isAdmin() {
+        String adminRole = AppRoles.getRoleName(AppRoles.ADMIN_ROLE);
+        
+        return roles.stream()
+            .filter(x -> x.getName().equals(adminRole))
+            .count() > 0;
+    }
 }
