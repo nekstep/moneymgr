@@ -45,7 +45,24 @@ $('#account-name-input').keyup(function (e) {
 });
 
 /**
+ * When account-toggle is clicked
+ */
+$('#transaction-add-toggle').click(function (e) {
+    e.preventDefault();
+
+    // show input box
+    $('#transaction-add-form').show();
+});
+
+
+/**
  * Fill in transactions
  */
 $('#transaction-list-table').load('/app/transaction/account/' + $('#account-name-input').data('account-id'));
+
+/**
+ * Initialize the datepicker
+ */
+$('#form-transaction-add-date').datepicker();
+$('#form-transaction-add-date').datepicker("option", "dateFormat", "yy-mm-dd");
 
