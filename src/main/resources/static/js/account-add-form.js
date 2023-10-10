@@ -1,3 +1,4 @@
+$(document).off('submit', '#form-account-add');
 $(document).on('submit', '#form-account-add', function(e) {
     e.preventDefault();
 

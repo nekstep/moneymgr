@@ -1,3 +1,4 @@
+$(document).off('submit', '#form-transaction-add');
 $(document).on('submit', '#form-transaction-add', function(e) {
     e.preventDefault();
 
