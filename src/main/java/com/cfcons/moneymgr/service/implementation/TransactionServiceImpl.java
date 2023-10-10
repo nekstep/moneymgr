@@ -37,14 +37,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction addTransaction(Account account, TransactionDto transactionDto) {
-        Transaction transaction = new Transaction();
+    public Transaction addTransaction(TransactionDto transactionDto) {
+        Account account = accountService.findAccountById(transactionDto.getAccountId());
 
+        Transaction transaction = new Transaction();
         transaction.setAmount(transactionDto.getAmount());
         transaction.setDate(transactionDto.getDate());
         transaction.setAccount(account);
 
-        return transactionRepository.save(transaction);
+        return isCurrentUserAuthorised(transaction) ? transactionRepository.save(transaction) : null;
     }
 
     @Override
@@ -60,6 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDto.setAmount(transaction.getAmount());
         transactionDto.setDate(transaction.getDate());
         transactionDto.setId(transaction.getId());
+        transactionDto.setAccountId(transaction.getAccount().getId());
 
         return transactionDto;
     }

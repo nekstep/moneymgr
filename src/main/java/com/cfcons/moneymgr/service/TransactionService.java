@@ -10,7 +10,7 @@ public interface TransactionService {
     List<TransactionDto> findAllTransactionsByAccount(Account account);
     List<TransactionDto> findAllTransactionsByAccountId(Long id);
 
-    Transaction addTransaction(Account account, TransactionDto transactionDto);
+    Transaction addTransaction(TransactionDto transactionDto);
 
     Boolean isCurrentUserAuthorised(Transaction transaction);
 }

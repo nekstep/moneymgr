@@ -53,13 +53,18 @@
   </div>
   <div id="transaction-add-form" style="display: none">
     <form method="POST" th:action="@{/app/transaction/add}" id="form-transaction-add">
+      <input type="hidden" id="form-transaction-add-accountId" th:value="${account.id}">
+
       <div class="form-group mb-3 col-md-3">
         <label class="form-label" for="form-transaction-add-amount">Amount</label>
         <input class="form-control" placeholder="Amount" type="text" id="form-transaction-add-amount">
-
-        <label class="form-label" for="form-transaction-add-date">Date</label>
-        <input class="form-control" placeholder="Amount" type="text" id="form-transaction-add-date">
       </div>
+
+      <div class="form-group mb-3 col-md-3">
+        <label class="form-label" for="form-transaction-add-date">Date</label>
+        <input class="form-control" placeholder="Date" type="text" id="form-transaction-add-date">
+      </div>
+
       <div class="form-group">
         <button type="submit" id="form-transaction-add-submit" class="btn btn-primary">Create</button>
       </div>
@@ -69,6 +74,7 @@
   <div id="transaction-list-table" class="row">
   </div>
   <script type="application/javascript" th:src="@{/js/account-main-info.js}"></script>
+  <script type="application/javascript" th:src="@{/js/transaction-add-form.js}"></script>
 </th:block>
 
 <!--

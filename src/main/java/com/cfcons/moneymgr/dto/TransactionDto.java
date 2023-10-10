@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TransactionDto {
     private Long id;
+    private Long accountId;
     private LocalDate date;
     private Double amount;
 }
